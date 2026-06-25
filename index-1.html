@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100k Streams Artist Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --ink:#121014;
+    --ink-2:#1B181E;
+    --ink-3:#221F26;
+    --paper:#F5F0E8;
+    --paper-dim:#9C958B;
+    --ember:#FF8A3D;
+    --crimson:#E8432F;
+    --tape:#6B5F4A;
+    --flat:#3A3740;
+    --flat-dim:#2A2730;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  .display{
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:1.05;
+  }
+
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--ember);
+    font-weight:600;
+  }
+
+  a{ color:inherit; }
+
+  :focus-visible{
+    outline:2px solid var(--ember);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  .col{
+    max-width:680px;
+    margin:0 auto;
+  }
+
+  section{
+    padding:96px 0;
+    position:relative;
+  }
+
+  /* ===== Waveform signature element ===== */
+  .waveform{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:64px;
+  }
+  .waveform .bar{
+    width:6px;
+    border-radius:3px;
+    background:var(--flat);
+    height:14px;
+    transform-origin:center;
+  }
+  .waveform.is-alive .bar{
+    background:linear-gradient(180deg,var(--ember),var(--crimson));
+    animation:pulse 1.1s ease-in-out infinite;
+  }
+  .waveform.is-alive .bar:nth-child(1){ height:22px; animation-delay:0s; }
+  .waveform.is-alive .bar:nth-child(2){ height:40px; animation-delay:0.1s; }
+  .waveform.is-alive .bar:nth-child(3){ height:58px; animation-delay:0.2s; }
+  .waveform.is-alive .bar:nth-child(4){ height:34px; animation-delay:0.3s; }
+  .waveform.is-alive .bar:nth-child(5){ height:50px; animation-delay:0.4s; }
+  .waveform.is-alive .bar:nth-child(6){ height:24px; animation-delay:0.5s; }
+  .waveform.is-alive .bar:nth-child(7){ height:44px; animation-delay:0.6s; }
+  .waveform.is-alive .bar:nth-child(8){ height:18px; animation-delay:0.7s; }
+  .waveform.is-alive .bar:nth-child(9){ height:36px; animation-delay:0.8s; }
+  .waveform.is-flat .bar{ height:10px; background:var(--flat); }
+
+  @keyframes pulse{
+    0%,100%{ transform:scaleY(0.4); }
+    50%{ transform:scaleY(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .waveform.is-alive .bar{ animation:none; transform:scaleY(0.75); }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:64px 24px;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,138,61,0.14), transparent 60%),
+      var(--ink);
+  }
+  .hero .eyebrow{ margin-bottom:22px; }
+  .hero h1{
+    font-size:clamp(2.4rem, 6.5vw, 5rem);
+    max-width:920px;
+    color:var(--paper);
+  }
+  .hero h1 span{ color:var(--ember); }
+  .hero .sub{
+    margin-top:28px;
+    max-width:620px;
+    font-size:1.15rem;
+    color:#D8D2C7;
+  }
+  .hero .sub strong{ color:var(--paper); font-weight:700; }
+  .hero .waveform{ margin:44px 0 8px; }
+
+  .stat-strip{
+    display:flex;
+    gap:0;
+    margin-top:40px;
+    border:1px solid var(--ink-3);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .stat-strip .stat{
+    padding:14px 26px;
+    border-right:1px solid var(--ink-3);
+    text-align:center;
+  }
+  .stat-strip .stat:last-child{ border-right:none; }
+  .stat-strip .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:1.15rem;
+    font-weight:600;
+    color:var(--ember);
+  }
+  .stat-strip .label{
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    margin-top:2px;
+  }
+
+  /* ===== Buttons ===== */
+  .btn{
+    display:inline-block;
+    margin-top:40px;
+    padding:18px 38px;
+    background:var(--crimson);
+    color:var(--paper);
+    font-family:'JetBrains Mono',monospace;
+    font-weight:600;
+    font-size:0.95rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    text-decoration:none;
+    border-radius:6px;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover{ background:#FF5238; transform:translateY(-2px); }
+
+  /* ===== Price card + countdown ===== */
+  .price-card{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    margin:40px auto 0;
+    padding:24px 36px;
+    background:var(--ink-2);
+    border:1px solid var(--ink-3);
+    border-radius:10px;
+  }
+  .price-card .save{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--crimson);
+    background:rgba(232,67,47,0.12);
+    padding:5px 12px;
+    border-radius:4px;
+  }
+  .price-card .old{
+    font-family:'JetBrains Mono',monospace;
+    font-size:1rem;
+    color:var(--paper-dim);
+    text-decoration:line-through;
+    margin-top:6px;
+  }
+  .price-card .new{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(2.2rem, 5vw, 3rem);
+    color:var(--ember);
+    letter-spacing:0.02em;
+  }
+  .countdown{
+    margin-top:20px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.74rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    text-align:center;
+  }
+  .countdown .clock{
+    display:block;
+    margin-top:8px;
+    font-size:1.5rem;
+    color:var(--paper);
+    letter-spacing:0.06em;
+  }
+
+  /* ===== Reveal lines ===== */
+  .reveal-group p{
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal-group.is-visible p{ opacity:1; transform:translateY(0); }
+  .reveal-group.is-visible p:nth-child(1){ transition-delay:0s; }
+  .reveal-group.is-visible p:nth-child(2){ transition-delay:0.08s; }
+  .reveal-group.is-visible p:nth-child(3){ transition-delay:0.16s; }
+  .reveal-group.is-visible p:nth-child(4){ transition-delay:0.24s; }
+  .reveal-group.is-visible p:nth-child(5){ transition-delay:0.32s; }
+  .reveal-group.is-visible p:nth-child(6){ transition-delay:0.40s; }
+
+  /* ===== Problem section ===== */
+  .problem{ background:var(--ink); }
+  .problem h2{
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    color:var(--paper);
+    margin-bottom:28px;
+  }
+  .compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:36px 0;
+  }
+  .compare .card{
+    background:var(--ink-2);
+    border:1px solid var(--ink-3);
+    border-radius:10px;
+    padding:24px;
+  }
+  .compare .card .tag{
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-family:'JetBrains Mono',monospace;
+    margin-bottom:14px;
+    display:block;
+  }
+  .compare .them .tag{ color:var(--ember); }
+  .compare .you .tag{ color:var(--paper-dim); }
+  .compare ul{ list-style:none; }
+  .compare li{
+    padding:7px 0;
+    font-size:0.95rem;
+    color:#D8D2C7;
+    border-top:1px solid var(--ink-3);
+  }
+  .compare li:first-child{ border-top:none; }
+
+  .reasons{
+    margin:36px 0;
+    border-left:2px solid var(--flat);
+    padding-left:22px;
+  }
+  .reasons p{
+    color:var(--paper-dim);
+    font-size:1.02rem;
+    padding:4px 0;
+    text-decoration:line-through;
+    text-decoration-color:var(--flat);
+  }
+  .reasons p.answer{
+    margin-top:14px;
+    text-decoration:none;
+    color:var(--paper);
+    font-weight:600;
+    font-size:1.15rem;
+    border-left:2px solid var(--ember);
+    margin-left:-24px;
+    padding-left:22px;
+  }
+
+  /* ===== Loop section ===== */
+  .loop{ background:var(--ink-2); }
+  .loop h2{
+    text-align:center;
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    margin-bottom:48px;
+  }
+  .loop-diagram{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    flex-wrap:wrap;
+    margin:0 auto 48px;
+    max-width:760px;
+  }
+  .loop-step{
+    background:var(--ink-3);
+    border:1px solid var(--flat);
+    border-radius:8px;
+    padding:16px 20px;
+    text-align:center;
+    min-width:140px;
+    flex:1;
+  }
+  .loop-step .n{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--paper-dim);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  .loop-step .t{
+    margin-top:6px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .loop-arrow{
+    color:var(--flat);
+    font-size:1.4rem;
+    padding:0 6px;
+    flex:0 0 auto;
+  }
+  .loop-repeat{
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--flat);
+    margin-top:-10px;
+  }
+  .loop-verdict{
+    text-align:center;
+    max-width:540px;
+    margin:0 auto;
+    color:var(--paper-dim);
+    font-size:1.05rem;
+  }
+  .loop-verdict strong{
+    display:block;
+    color:var(--paper);
+    font-size:1.3rem;
+    margin-top:12px;
+  }
+
+  /* ===== Shift section ===== */
+  .shift{ text-align:center; }
+  .shift h2{
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    max-width:680px;
+    margin:0 auto 18px;
+  }
+  .shift p{ color:var(--paper-dim); font-size:1.05rem; max-width:560px; margin:0 auto; }
+  .shift .waveform{ margin:48px 0 0; }
+
+  /* ===== Solution section ===== */
+  .solution{
+    background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  }
+  .solution .eyebrow{ text-align:center; display:block; margin-bottom:14px; }
+  .solution h2{
+    text-align:center;
+    font-size:clamp(2rem, 5vw, 3.2rem);
+    max-width:760px;
+    margin:0 auto 20px;
+  }
+  .solution .lead{
+    text-align:center;
+    color:var(--paper-dim);
+    max-width:560px;
+    margin:0 auto 56px;
+    font-size:1.05rem;
+  }
+  .features{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    max-width:800px;
+    margin:0 auto;
+  }
+  .feature{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    background:var(--ink-2);
+    border:1px solid var(--ink-3);
+    border-radius:10px;
+    padding:22px;
+  }
+  .feature .mini-eq{
+    display:flex;
+    align-items:flex-end;
+    gap:3px;
+    height:22px;
+    flex:0 0 auto;
+    margin-top:3px;
+  }
+  .feature .mini-eq span{
+    width:4px;
+    border-radius:2px;
+    background:var(--ember);
+  }
+  .feature .mini-eq span:nth-child(1){ height:10px; }
+  .feature .mini-eq span:nth-child(2){ height:22px; background:var(--crimson); }
+  .feature .mini-eq span:nth-child(3){ height:15px; }
+  .feature .text{ font-size:0.98rem; color:#E4DFD6; font-weight:500; }
+
+  /* ===== Reckoning section ===== */
+  .reckoning{ text-align:center; }
+  .reckoning .q{
+    font-size:clamp(1.3rem, 3.2vw, 1.8rem);
+    color:var(--paper-dim);
+    max-width:600px;
+    margin:0 auto;
+    font-weight:600;
+  }
+  .reckoning .divider{
+    width:48px;
+    height:2px;
+    background:var(--ember);
+    margin:36px auto;
+  }
+  .reckoning .verdict{
+    font-size:clamp(1.6rem, 4vw, 2.3rem);
+    max-width:560px;
+    margin:0 auto;
+    font-weight:800;
+  }
+  .reckoning .verdict .or{ color:var(--paper-dim); font-weight:500; display:block; margin:8px 0; }
+  .reckoning .verdict .roadmap{ color:var(--ember); }
+
+  /* ===== Final CTA ===== */
+  .final-cta{
+    text-align:center;
+    background:radial-gradient(ellipse 70% 60% at 50% 100%, rgba(232,67,47,0.18), transparent 65%);
+  }
+  .final-cta h2{
+    font-size:clamp(2.1rem, 5.5vw, 3.4rem);
+    max-width:760px;
+    margin:0 auto 20px;
+  }
+  .final-cta h2 em{
+    font-style:normal;
+    color:var(--ember);
+  }
+  .final-cta p{ color:var(--paper-dim); max-width:520px; margin:0 auto; font-size:1.05rem; }
+  .final-cta .waveform{ margin:48px 0 4px; }
+  .final-cta .fine{
+    margin-top:22px;
+    font-size:0.78rem;
+    color:var(--tape);
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  footer{
+    padding:36px 24px 48px;
+    text-align:center;
+    color:var(--tape);
+    font-size:0.78rem;
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  @media (max-width:720px){
+    section{ padding:64px 0; }
+    .compare{ grid-template-columns:1fr; }
+    .features{ grid-template-columns:1fr; }
+    .stat-strip{ flex-direction:column; }
+    .stat-strip .stat{ border-right:none; border-bottom:1px solid var(--ink-3); }
+    .stat-strip .stat:last-child{ border-bottom:none; }
+    .loop-diagram{ flex-direction:column; }
+    .loop-arrow{ transform:rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <span class="eyebrow">For artists who are done waiting</span>
+    <h1 class="display">If you have a phone, internet, and social media—<span>you already have what you need.</span></h1>
+    <p class="sub">You should have <strong>100,000 streams</strong> and <strong>$500+ in royalties</strong> within the next 90 days.<br>Read that again.</p>
+
+    <div class="waveform is-alive" aria-hidden="true">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat"><div class="num">100,000</div><div class="label">Streams</div></div>
+      <div class="stat"><div class="num">$500+</div><div class="label">Royalties</div></div>
+      <div class="stat"><div class="num">90</div><div class="label">Days</div></div>
+    </div>
+
+    <a class="btn" href="https://paystack.com/buy/blueprint-ksbcpz">Get Instant Access</a>
+  </header>
+
+  <main>
+
+    <section class="problem">
+      <div class="wrap col">
+        <h2 class="display">Right now, artists with less talent than you are out-earning you.</h2>
+
+        <div class="compare">
+          <div class="card them">
+            <span class="tag">What they have</span>
+            <ul>
+              <li>Worse songs than you</li>
+              <li>Smaller budgets than you</li>
+              <li>No label, no co-sign, no connections</li>
+            </ul>
+          </div>
+          <div class="card you">
+            <span class="tag">What they're getting</span>
+            <ul>
+              <li>More streams</li>
+              <li>Bigger fanbases</li>
+              <li>More money from their music</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reasons">
+          <p>Not because they're lucky.</p>
+          <p>Not because they got signed.</p>
+          <p>Not because they know someone in the industry.</p>
+          <p class="answer">They simply know something you don't — how to turn attention into fans, and fans into streams.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="loop">
+      <div class="wrap">
+        <h2 class="display">Meanwhile, most artists are stuck in the same cycle.</h2>
+
+        <div class="loop-diagram" aria-label="The cycle: post music, get a few likes, watch nothing happen, repeat">
+          <div class="loop-step"><div class="n">Step</div><div class="t">Post music</div></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-step"><div class="n">Step</div><div class="t">Get a few likes</div></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-step"><div class="n">Step</div><div class="t">Watch nothing happen</div></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-step"><div class="n">Step</div><div class="t">Repeat</div></div>
+        </div>
+        <p class="loop-repeat">Month after month. Year after year.</p>
+
+        <p class="loop-verdict">Hoping the next song changes everything.
+          <strong>It won't. Not without a strategy.</strong>
+        </p>
+      </div>
+    </section>
+
+    <section class="shift">
+      <div class="wrap col">
+        <h2 class="display">The music industry has changed.</h2>
+        <p>Today, a phone and internet access are enough to build a music career — but only if you know what you're doing.</p>
+        <div class="waveform is-flat" aria-hidden="true">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="solution" id="solution">
+      <div class="wrap">
+        <span class="eyebrow">Introducing</span>
+        <h2 class="display">The 100k Streams Artist Blueprint</h2>
+        <p class="lead">Not another course full of motivation and theory. It's the exact framework that helps artists turn attention into fans, and fans into streams.</p>
+
+        <div class="features">
+          <div class="feature">
+            <div class="mini-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="text">Build a fanbase from scratch</div>
+          </div>
+          <div class="feature">
+            <div class="mini-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="text">Get consistent streams</div>
+          </div>
+          <div class="feature">
+            <div class="mini-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="text">Create content people actually engage with</div>
+          </div>
+          <div class="feature">
+            <div class="mini-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="text">Stop guessing what to do next</div>
+          </div>
+          <div class="feature">
+            <div class="mini-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="text">Build momentum without relying on luck</div>
+          </div>
+          <div class="feature">
+            <div class="mini-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="text">Talent isn't the problem — nobody ever gave you the map</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reckoning">
+      <div class="wrap col reveal-group" id="reveal-1">
+        <p class="q">How many more songs will you release before you finally get serious about growth?</p>
+        <p class="q">How many more years are you willing to spend hoping things magically work out?</p>
+        <div class="divider"></div>
+        <p class="verdict">At some point you have to make a decision.
+          <span class="or">Keep guessing.</span>
+          Or follow a <span class="roadmap">proven roadmap.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="final-cta" id="get-access">
+      <div class="wrap">
+        <h2 class="display">The artist meant to <em>fly</em> shouldn't spend years crawling.</h2>
+        <p>Get instant access to the 100k Streams Artist Blueprint today.</p>
+
+        <div class="waveform is-alive" aria-hidden="true">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+
+        <div class="price-card">
+          <span class="save">Save 55% today</span>
+          <span class="old">₦35,000</span>
+          <span class="new">₦15,599</span>
+        </div>
+
+        <div class="countdown">
+          Price goes back up in
+          <span class="clock" id="clock">24:00:00</span>
+        </div>
+
+        <a class="btn" href="https://paystack.com/buy/blueprint-ksbcpz">Get Instant Access</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 100k Streams Artist Blueprint. All rights reserved.
+  </footer>
+
+  <script>
+    // Scroll-triggered reveal for the rhetorical-question section
+    const revealEls = document.querySelectorAll('.reveal-group');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Countdown timer — 24 hours from page load.
+    // Note: this resets every time the page reloads. For a real one-time
+    // deadline, replace `Date.now() + DURATION` below with a fixed end date,
+    // e.g. new Date('2026-07-01T00:00:00').getTime()
+    const clockEl = document.getElementById('clock');
+    if (clockEl){
+      const DURATION = 24 * 60 * 60 * 1000;
+      const endTime = Date.now() + DURATION;
+      const timerId = setInterval(() => {
+        const remaining = endTime - Date.now();
+        if (remaining <= 0){
+          clockEl.textContent = '00:00:00';
+          clearInterval(timerId);
+          return;
+        }
+        const h = Math.floor(remaining / 3600000);
+        const m = Math.floor((remaining % 3600000) / 60000);
+        const s = Math.floor((remaining % 60000) / 1000);
+        clockEl.textContent = [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
