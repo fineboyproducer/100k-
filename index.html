@@ -714,23 +714,60 @@
     }
   }, { passive: true });
 
-  // Email form (demo — no backend wired)
+  // Email form — posts to a Google Apps Script webhook
+  // 1. Deploy the included apps-script.gs as a Web App (Execute as: Me, Access: Anyone)
+  // 2. Paste the deployment URL below (it ends in /exec)
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbz9vUXTzbblFArHACvH2Z0rmGA80HHxuO5-fXPxaiNViONsR4aZRhPVZ_k3szbhITlt/exec';
+
   const form = document.getElementById('email-form');
   const msg = document.getElementById('form-msg');
-  form.addEventListener('submit', (e) => {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitBtnDefaultText = submitBtn.textContent;
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = document.getElementById('email-input');
     const email = input.value.trim();
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    msg.classList.remove('text-red-400');
+
     if (!valid) {
       msg.textContent = 'Please enter a valid email address.';
       msg.classList.add('text-red-400');
       return;
     }
-    msg.classList.remove('text-red-400');
-    msg.textContent = "You're in. Check your inbox for the Blueprint.";
-    form.querySelector('button').textContent = 'Sent ✓';
-    input.disabled = true;
+
+    if (WEBHOOK_URL.indexOf('PASTE_YOUR') === 0) {
+      msg.textContent = 'Form is not connected yet — add your webhook URL.';
+      msg.classList.add('text-red-400');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    msg.textContent = '';
+
+    try {
+      // Apps Script web apps don't return CORS headers for fetch reads,
+      // so we send the request and treat a non-network-error as success.
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ email }),
+      });
+
+      msg.classList.remove('text-red-400');
+      msg.textContent = "You're in. Check your inbox for the Blueprint.";
+      submitBtn.textContent = 'Sent ✓';
+      input.disabled = true;
+    } catch (err) {
+      msg.textContent = 'Something went wrong. Please try again.';
+      msg.classList.add('text-red-400');
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitBtnDefaultText;
+    }
   });
 </script>
 
