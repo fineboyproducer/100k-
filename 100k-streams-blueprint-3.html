@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>100k Streams Artist Blueprint — Free Roadmap for Independent Artists</title>
+<meta name="description" content="The free roadmap independent artists use to promote their music, build an audience, and grow real streaming numbers — without a label." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#050505',
+          card: '#0D0D0D',
+          hairline: '#1C1C1A',
+          bone: '#EDEAE2',
+          mute: '#8C8A84',
+          gold: {
+            DEFAULT: '#D4AF37',
+            soft: '#C9A94B',
+            dim: '#8A7530',
+          },
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  * { -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #050505;
+    color: #EDEAE2;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: #D4AF37; color: #050505; }
+
+  /* Focus visibility for accessibility */
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 2px solid #D4AF37;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Grain texture overlay */
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Ambient gold glow */
+  .glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(120px);
+    pointer-events: none;
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+    .float-mockup, .float-slow { animation: none; }
+    .shine-btn::after { transition: none; display: none; }
+  }
+
+  /* Waveform divider */
+  .waveform-bar {
+    width: 3px;
+    background: linear-gradient(to top, #D4AF37, #8A7530);
+    border-radius: 2px;
+    transform-origin: center;
+  }
+
+  /* Glass card */
+  .glass {
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  /* Card hover lift */
+  .lift {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, background 0.5s ease;
+  }
+  .lift:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+
+  /* Gold text gradient */
+  .gold-text {
+    background: linear-gradient(120deg, #F3DD8C 0%, #D4AF37 45%, #A9822C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Mockup float */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-18px) rotate(-1deg); }
+  }
+  .float-mockup { animation: float 7s ease-in-out infinite; }
+
+  @keyframes floatSlow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .float-slow { animation: floatSlow 5s ease-in-out infinite; }
+
+  /* Button shine */
+  .shine-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.7s ease;
+  }
+  .shine-btn:hover::after { left: 125%; }
+
+  /* Divider line */
+  .hairline { background: linear-gradient(to right, transparent, #262620, transparent); height: 1px; }
+
+  input[type="email"]::placeholder { color: #6b6a64; }
+
+  .sticky-cta {
+    transform: translateY(120%);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sticky-cta.show { transform: translateY(0); }
+
+  /* Strike text */
+  .strike {
+    position: relative;
+    color: #6b6a64;
+  }
+  .strike::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 1px;
+    background: #6b6a64;
+  }
+
+  .num-tick { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-40 border-b border-hairline/60 backdrop-blur-xl bg-ink/70">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-7 h-7 rounded-full border border-gold/40 flex items-center justify-center">
+        <div class="w-2 h-2 rounded-full bg-gold"></div>
+      </div>
+      <span class="font-display text-[15px] tracking-wide text-bone">100k Streams<span class="text-mute font-normal"> / Blueprint</span></span>
+    </div>
+    <a href="#claim" class="hidden sm:inline-flex items-center gap-2 text-[13px] font-medium text-ink bg-bone hover:bg-gold transition-colors duration-300 px-4 py-2 rounded-full">
+      Get it free
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative min-h-[100svh] flex items-center pt-28 pb-20 px-6 md:px-10 overflow-hidden">
+  <div class="glow w-[500px] h-[500px] bg-gold/10 -top-40 -left-40"></div>
+  <div class="glow w-[400px] h-[400px] bg-gold/5 bottom-0 right-0"></div>
+
+  <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center relative z-10">
+    <div>
+      <div class="reveal in flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase text-gold/90 mb-8 font-medium">
+        <span class="w-6 h-px bg-gold/50"></span>
+        Free for independent artists
+      </div>
+
+      <h1 class="reveal in font-display text-[13vw] sm:text-6xl md:text-7xl leading-[0.98] tracking-[-0.02em] text-bone">
+        You finished<br>the song<span class="text-mute">...</span>
+        <br>
+        <span class="italic font-normal gold-text">Now what?</span>
+      </h1>
+
+      <p class="reveal in reveal-delay-1 text-mute text-[16px] md:text-lg leading-relaxed mt-8 max-w-xl">
+        Most independent artists spend months making music, then have no idea how to get people to hear it. The <span class="text-bone">100k Streams Artist Blueprint</span> gives you the exact roadmap to promote your music, build an audience, and grow your career — without needing a record label.
+      </p>
+
+      <div class="reveal in reveal-delay-2 mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <a href="#claim" class="shine-btn inline-flex items-center justify-center gap-2 bg-gold text-ink font-semibold text-[15px] px-8 py-4 rounded-full hover:bg-gold-soft transition-colors duration-300 w-full sm:w-auto">
+          Download FREE Blueprint
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="text-[13px] text-mute leading-snug">
+          Instant download &nbsp;·&nbsp; No spam &nbsp;·&nbsp; 100% free
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup -->
+    <div class="reveal in reveal-delay-2 relative flex justify-center lg:justify-end">
+      <div class="float-mockup relative w-[260px] sm:w-[300px]">
+        <div class="absolute -inset-6 bg-gold/10 blur-3xl rounded-full"></div>
+        <div class="relative aspect-[3/4] rounded-2xl glass shadow-2xl shadow-black/60 p-6 flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-gold/[0.06] to-transparent"></div>
+          <div class="relative flex items-center justify-between">
+            <div class="w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center">
+              <div class="w-1.5 h-1.5 rounded-full bg-gold"></div>
+            </div>
+            <span class="font-mono text-[10px] tracking-widest text-mute uppercase">Edition 01</span>
+          </div>
+          <div class="relative">
+            <div class="flex items-end gap-[3px] h-14 mb-6" id="mockup-waveform"></div>
+            <p class="font-mono text-[10px] tracking-[0.2em] text-gold/80 uppercase mb-2">The Blueprint</p>
+            <h3 class="font-display text-2xl leading-[1.05] text-bone">100k Streams<br>Artist Blueprint</h3>
+          </div>
+          <div class="relative hairline"></div>
+          <div class="relative flex items-center justify-between text-[11px] text-mute font-mono">
+            <span>By Fineboy Producer</span>
+            <span>PDF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-mute/60">
+    <span class="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
+    <div class="w-px h-8 bg-gradient-to-b from-mute/60 to-transparent"></div>
+  </div>
+</section>
+
+<!-- SECTION 2: STORY -->
+<section class="relative py-28 md:py-40 px-6 md:px-10 border-t border-hairline">
+  <div class="max-w-3xl mx-auto">
+    <div class="reveal flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase text-gold/90 mb-10 font-medium justify-center">
+      <span class="w-6 h-px bg-gold/50"></span>
+      Why this exists
+      <span class="w-6 h-px bg-gold/50"></span>
+    </div>
+
+    <div class="space-y-7 font-display text-[22px] sm:text-[26px] md:text-3xl leading-[1.5] text-bone/90 text-center">
+      <p class="reveal">A couple of years ago, I was exactly where you are.</p>
+      <p class="reveal">I'd finally made my first song. I thought <span class="italic text-mute">making</span> the music was the hard part.</p>
+      <p class="reveal">Then reality hit.</p>
+      <p class="reveal text-bone">Nobody told me what to do <span class="italic gold-text">after</span> the song was finished.</p>
+    </div>
+
+    <div class="reveal mt-14 space-y-4 max-w-md mx-auto text-mute text-[16px] leading-relaxed text-center font-body">
+      <p>I didn't know how to promote it.<br>I didn't know how to grow.<br>I didn't know how to get listeners.</p>
+    </div>
+
+    <div class="reveal mt-14 hairline max-w-xs mx-auto"></div>
+
+    <div class="reveal mt-14 text-center">
+      <p class="font-display italic text-2xl sm:text-3xl text-bone leading-snug">
+        I wish someone had handed me a roadmap.
+      </p>
+      <p class="mt-6 text-mute text-[16px] max-w-lg mx-auto leading-relaxed">
+        That's why I created the <span class="text-bone">100k Streams Artist Blueprint</span> — it's the guide I wish I had.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: WHAT'S INSIDE -->
+<section class="relative py-28 md:py-36 px-6 md:px-10 border-t border-hairline">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-16 max-w-xl">
+      <div class="flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase text-gold/90 mb-6 font-medium">
+        <span class="w-6 h-px bg-gold/50"></span>
+        The contents
+      </div>
+      <h2 class="font-display text-4xl sm:text-5xl leading-[1.05] text-bone">What's inside</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">Finding your audience</h3>
+        <p class="text-mute text-[14px] leading-relaxed">Know exactly who your music is for before you spend a single dollar promoting it.</p>
+      </div>
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">Building a release strategy</h3>
+        <p class="text-mute text-[14px] leading-relaxed">A clear timeline for what to do before, during, and after every release.</p>
+      </div>
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 6a5.5 5.5 0 019.5 6c-2.5 4.5-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">Getting your first loyal fans</h3>
+        <p class="text-mute text-[14px] leading-relaxed">The difference between a stream and a fan — and how to earn the second one.</p>
+      </div>
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 9h6v6H9z" stroke="currentColor" stroke-width="1.5"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">Content ideas that actually work</h3>
+        <p class="text-mute text-[14px] leading-relaxed">Simple, repeatable content formats built for artists — not marketers.</p>
+      </div>
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M9 15l3-3 2 2 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">Music promotion strategies</h3>
+        <p class="text-mute text-[14px] leading-relaxed">Practical, low-budget ways to get real ears on your music consistently.</p>
+      </div>
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 17h.01M10.3 3.9L2.7 18a1.5 1.5 0 001.3 2.2h16a1.5 1.5 0 001.3-2.2L13.7 3.9a1.5 1.5 0 00-2.6 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">Mistakes that kill momentum</h3>
+        <p class="text-mute text-[14px] leading-relaxed">The avoidable errors that quietly end independent careers early.</p>
+      </div>
+
+      <div class="reveal lift glass rounded-2xl p-8 border border-hairline sm:col-span-2 lg:col-span-1">
+        <svg class="w-6 h-6 text-gold mb-6" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3 class="font-display text-lg text-bone mb-2">How artists reached 100k streams</h3>
+        <p class="text-mute text-[14px] leading-relaxed">Breaking down the real path independent artists took to get there.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: RESULTS -->
+<section class="relative py-28 md:py-36 px-6 md:px-10 border-t border-hairline overflow-hidden">
+  <div class="glow w-[500px] h-[500px] bg-gold/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="max-w-4xl mx-auto text-center relative z-10">
+    <h2 class="reveal font-display text-3xl sm:text-4xl md:text-5xl leading-[1.15] text-bone max-w-2xl mx-auto">
+      These strategies have helped artists generate over <span class="gold-text italic">100,000 streams</span>
+    </h2>
+
+    <div class="reveal mt-20 grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6">
+      <div class="reveal reveal-delay-1">
+        <div class="font-display text-5xl sm:text-6xl text-gold num-tick" data-count="100000" data-suffix="+">0</div>
+        <p class="text-mute text-[13px] tracking-wide uppercase mt-3">Streams generated</p>
+      </div>
+      <div class="reveal reveal-delay-2 sm:border-x sm:border-hairline">
+        <div class="font-display text-5xl sm:text-6xl text-bone">Dozens</div>
+        <p class="text-mute text-[13px] tracking-wide uppercase mt-3">Independent artists helped</p>
+      </div>
+      <div class="reveal reveal-delay-3">
+        <div class="font-display text-5xl sm:text-6xl text-bone">Years</div>
+        <p class="text-mute text-[13px] tracking-wide uppercase mt-3">Of trial &amp; error compressed</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 & 6: WHO THIS IS FOR / NOT FOR -->
+<section class="relative py-28 md:py-36 px-6 md:px-10 border-t border-hairline">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-6">
+
+    <div class="reveal rounded-3xl border border-hairline p-8 md:p-10 bg-gradient-to-b from-gold/[0.04] to-transparent">
+      <h3 class="font-display text-2xl text-bone mb-8">Who this is for</h3>
+      <ul class="space-y-5">
+        <li class="flex items-start gap-3 text-[15px] text-bone/90">
+          <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Artists releasing their first song
+        </li>
+        <li class="flex items-start gap-3 text-[15px] text-bone/90">
+          <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Artists stuck below 1,000 streams
+        </li>
+        <li class="flex items-start gap-3 text-[15px] text-bone/90">
+          <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Independent musicians with no team
+        </li>
+        <li class="flex items-start gap-3 text-[15px] text-bone/90">
+          <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Artists with no marketing budget
+        </li>
+        <li class="flex items-start gap-3 text-[15px] text-bone/90">
+          <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Serious musicians who want long-term growth
+        </li>
+      </ul>
+    </div>
+
+    <div class="reveal reveal-delay-1 rounded-3xl border border-hairline p-8 md:p-10">
+      <h3 class="font-display text-2xl text-mute mb-8">Who this is not for</h3>
+      <ul class="space-y-5">
+        <li class="flex items-start gap-3 text-[15px] text-mute">
+          <svg class="w-5 h-5 text-mute/60 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          People looking for overnight fame
+        </li>
+        <li class="flex items-start gap-3 text-[15px] text-mute">
+          <svg class="w-5 h-5 text-mute/60 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Artists unwilling to promote themselves
+        </li>
+        <li class="flex items-start gap-3 text-[15px] text-mute">
+          <svg class="w-5 h-5 text-mute/60 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          People expecting fake streaming hacks
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 7: VALUE STACK -->
+<section class="relative py-28 md:py-36 px-6 md:px-10 border-t border-hairline">
+  <div class="max-w-lg mx-auto">
+    <div class="reveal text-center mb-14">
+      <div class="flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase text-gold/90 mb-6 font-medium justify-center">
+        <span class="w-6 h-px bg-gold/50"></span>
+        What you're getting
+        <span class="w-6 h-px bg-gold/50"></span>
+      </div>
+      <h2 class="font-display text-4xl text-bone">The full breakdown</h2>
+    </div>
+
+    <div class="reveal glass rounded-3xl border border-hairline overflow-hidden">
+      <div class="p-8 md:p-10 space-y-6 font-mono text-[14px]">
+        <div class="flex items-center justify-between text-bone/90">
+          <span>Release &amp; Growth Roadmap</span>
+          <span class="text-mute">$97</span>
+        </div>
+        <div class="flex items-center justify-between text-bone/90">
+          <span>Promotion Framework</span>
+          <span class="text-mute">$147</span>
+        </div>
+        <div class="flex items-center justify-between text-bone/90">
+          <span>Release Checklist</span>
+          <span class="text-mute">$49</span>
+        </div>
+        <div class="flex items-center justify-between text-bone/90">
+          <span>Growth Strategy Guide</span>
+          <span class="text-mute">$197</span>
+        </div>
+
+        <div class="hairline"></div>
+
+        <div class="flex items-center justify-between text-bone">
+          <span>Total value</span>
+          <span class="strike font-medium">$490</span>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <span class="text-bone text-base">Today</span>
+          <span class="text-gold text-2xl font-semibold">FREE</span>
+        </div>
+      </div>
+
+      <a href="#claim" class="shine-btn flex items-center justify-center gap-2 bg-gold text-ink font-semibold text-[15px] py-5 hover:bg-gold-soft transition-colors duration-300">
+        Get instant access
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: ABOUT -->
+<section class="relative py-28 md:py-36 px-6 md:px-10 border-t border-hairline">
+  <div class="max-w-3xl mx-auto">
+    <div class="reveal flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase text-gold/90 mb-10 font-medium">
+      <span class="w-6 h-px bg-gold/50"></span>
+      About
+    </div>
+
+    <div class="reveal grid sm:grid-cols-[auto_1fr] gap-8 items-start">
+      <div class="w-16 h-16 rounded-full border border-gold/40 flex items-center justify-center shrink-0">
+        <svg class="w-6 h-6 text-gold" viewBox="0 0 24 24" fill="none"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h3 class="font-display text-2xl text-bone mb-4">Fineboy Producer</h3>
+        <p class="text-mute text-[16px] leading-relaxed">
+          I'm a producer and independent artist. Most of what's in this Blueprint didn't come from a course — it came from years of releasing music, getting it wrong, and slowly figuring out what actually moves the needle.
+        </p>
+        <p class="text-mute text-[16px] leading-relaxed mt-4">
+          My goal with this guide is simple: help independent artists avoid the confusion that follows most releases — the part nobody talks about — so you can spend less time guessing and more time building something real.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9: FAQ -->
+<section class="relative py-28 md:py-36 px-6 md:px-10 border-t border-hairline">
+  <div class="max-w-2xl mx-auto">
+    <div class="reveal mb-14">
+      <div class="flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase text-gold/90 mb-6 font-medium">
+        <span class="w-6 h-px bg-gold/50"></span>
+        Questions
+      </div>
+      <h2 class="font-display text-4xl text-bone">Frequently asked</h2>
+    </div>
+
+    <div class="reveal space-y-0 divide-y divide-hairline border-t border-b border-hairline" id="faq">
+
+      <div class="faq-item">
+        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left py-6 gap-4" aria-expanded="false" aria-controls="faq-panel-1">
+          <span class="font-display text-lg text-bone">Why is it free?</span>
+          <svg class="faq-icon w-4 h-4 text-gold shrink-0 transition-transform duration-300" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div id="faq-panel-1" class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-out">
+          <p class="text-mute text-[15px] leading-relaxed pb-6 pr-8">Because I remember needing this and not being able to afford anything that could've helped. If it helps even a handful of artists avoid wasted months, it's done its job.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left py-6 gap-4" aria-expanded="false" aria-controls="faq-panel-2">
+          <span class="font-display text-lg text-bone">How do I receive it?</span>
+          <svg class="faq-icon w-4 h-4 text-gold shrink-0 transition-transform duration-300" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div id="faq-panel-2" class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-out">
+          <p class="text-mute text-[15px] leading-relaxed pb-6 pr-8">Enter your email below and the Blueprint is sent straight to your inbox as an instant download. No waiting, no extra steps.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left py-6 gap-4" aria-expanded="false" aria-controls="faq-panel-3">
+          <span class="font-display text-lg text-bone">Will this work outside Nigeria?</span>
+          <svg class="faq-icon w-4 h-4 text-gold shrink-0 transition-transform duration-300" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div id="faq-panel-3" class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-out">
+          <p class="text-mute text-[15px] leading-relaxed pb-6 pr-8">Yes. The strategies are built around platforms and audience behavior that apply globally — they're not tied to any one country or market.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left py-6 gap-4" aria-expanded="false" aria-controls="faq-panel-4">
+          <span class="font-display text-lg text-bone">Is this for beginners?</span>
+          <svg class="faq-icon w-4 h-4 text-gold shrink-0 transition-transform duration-300" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div id="faq-panel-4" class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-out">
+          <p class="text-mute text-[15px] leading-relaxed pb-6 pr-8">Yes — it's written for artists who are early in their journey or stuck under 1,000 streams. If you already have a large, engaged audience, most of this will feel familiar.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA / CLAIM -->
+<section id="claim" class="relative py-32 md:py-44 px-6 md:px-10 border-t border-hairline overflow-hidden">
+  <div class="glow w-[600px] h-[600px] bg-gold/10 top-0 left-1/2 -translate-x-1/2"></div>
+
+  <div class="max-w-xl mx-auto text-center relative z-10">
+    <h2 class="reveal font-display text-4xl sm:text-5xl leading-[1.1] text-bone">
+      Don't let your song<br><span class="italic gold-text">die after release day.</span>
+    </h2>
+    <p class="reveal reveal-delay-1 text-mute text-[16px] leading-relaxed mt-6 max-w-md mx-auto">
+      Download the Blueprint today and learn how independent artists are building real, lasting momentum.
+    </p>
+
+    <form id="email-form" class="reveal reveal-delay-2 mt-10 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" novalidate>
+      <label for="email-input" class="sr-only">Email address</label>
+      <input
+        id="email-input"
+        type="email"
+        required
+        placeholder="you@email.com"
+        class="flex-1 bg-white/[0.03] border border-hairline focus:border-gold/50 rounded-full px-6 py-4 text-[15px] text-bone placeholder:text-mute/60 outline-none transition-colors duration-300"
+      />
+      <button type="submit" class="shine-btn shrink-0 inline-flex items-center justify-center gap-2 bg-gold text-ink font-semibold text-[15px] px-7 py-4 rounded-full hover:bg-gold-soft transition-colors duration-300">
+        Get My FREE Blueprint
+      </button>
+    </form>
+    <p id="form-msg" class="text-[13px] text-mute mt-4 h-4"></p>
+
+    <p class="reveal reveal-delay-3 text-[12px] text-mute/70 mt-2">Instant download &nbsp;·&nbsp; No spam, ever &nbsp;·&nbsp; Unsubscribe anytime</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative px-6 md:px-10 py-12 border-t border-hairline">
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+    <p class="text-mute text-[13px]">© <span id="year"></span> Fineboy Producer. All rights reserved.</p>
+
+    <div class="flex items-center gap-6 text-[13px] text-mute">
+      <a href="#" class="hover:text-bone transition-colors">Privacy Policy</a>
+      <a href="#" class="hover:text-bone transition-colors">Terms</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-full border border-hairline flex items-center justify-center text-mute hover:text-gold hover:border-gold/40 transition-colors">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube" class="w-8 h-8 rounded-full border border-hairline flex items-center justify-center text-mute hover:text-gold hover:border-gold/40 transition-colors">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M10 9l5 3-5 3V9z" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok" class="w-8 h-8 rounded-full border border-hairline flex items-center justify-center text-mute hover:text-gold hover:border-gold/40 transition-colors">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><path d="M14 3v10.5a3.5 3.5 0 11-3-3.46M14 3a5 5 0 005 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div id="sticky-cta" class="sticky-cta fixed bottom-0 left-0 right-0 z-50 sm:hidden p-4 bg-ink/90 backdrop-blur-xl border-t border-hairline">
+  <a href="#claim" class="flex items-center justify-center gap-2 bg-gold text-ink font-semibold text-[14px] py-3.5 rounded-full">
+    Download FREE Blueprint
+  </a>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // Hero waveform mockup bars
+  const wf = document.getElementById('mockup-waveform');
+  if (wf) {
+    const heights = [30,55,25,70,45,90,40,65,30,80,50,35,60,25,45];
+    heights.forEach((h, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'waveform-bar';
+      bar.style.height = h + '%';
+      bar.style.opacity = 0.4 + (h/100)*0.6;
+      wf.appendChild(bar);
+    });
+  }
+
+  // Number count-up
+  const counters = document.querySelectorAll('[data-count]');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1600;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.floor(eased * target);
+          el.textContent = value.toLocaleString() + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => counterIO.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('.faq-icon');
+      const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+      document.querySelectorAll('.faq-content').forEach(c => c.style.maxHeight = '0px');
+      document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+      document.querySelectorAll('.faq-trigger').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+      if (!isOpen) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.style.transform = 'rotate(45deg)';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // Sticky mobile CTA visibility
+  const stickyCta = document.getElementById('sticky-cta');
+  const claimSection = document.getElementById('claim');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const claimTop = claimSection.offsetTop;
+    if (scrolled > 500 && scrolled < claimTop - 200) {
+      stickyCta.classList.add('show');
+    } else {
+      stickyCta.classList.remove('show');
+    }
+  }, { passive: true });
+
+  // Email form — posts to a Google Apps Script webhook
+  // 1. Deploy the included apps-script.gs as a Web App (Execute as: Me, Access: Anyone)
+  // 2. Paste the deployment URL below (it ends in /exec)
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbz9vUXTzbblFArHACvH2Z0rmGA80HHxuO5-fXPxaiNViONsR4aZRhPVZ_k3szbhITlt/exec';
+
+  const form = document.getElementById('email-form');
+  const msg = document.getElementById('form-msg');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitBtnDefaultText = submitBtn.textContent;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('email-input');
+    const email = input.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    msg.classList.remove('text-red-400');
+
+    if (!valid) {
+      msg.textContent = 'Please enter a valid email address.';
+      msg.classList.add('text-red-400');
+      return;
+    }
+
+    if (WEBHOOK_URL.indexOf('PASTE_YOUR') === 0) {
+      msg.textContent = 'Form is not connected yet — add your webhook URL.';
+      msg.classList.add('text-red-400');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    msg.textContent = '';
+
+    try {
+      // Apps Script web apps don't return CORS headers for fetch reads,
+      // so we send the request and treat a non-network-error as success.
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ email }),
+      });
+
+      msg.classList.remove('text-red-400');
+      msg.textContent = "You're in. Check your inbox for the Blueprint.";
+      submitBtn.textContent = 'Sent ✓';
+      input.disabled = true;
+    } catch (err) {
+      msg.textContent = 'Something went wrong. Please try again.';
+      msg.classList.add('text-red-400');
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitBtnDefaultText;
+    }
+  });
+</script>
+
+</body>
+</html>
