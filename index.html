@@ -10,30 +10,49 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<script src="https://cdn.tailwindcss.com"></script>
 <script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          ink: '#050505',
-          card: '#0D0D0D',
-          hairline: '#1C1C1A',
-          bone: '#EDEAE2',
-          mute: '#8C8A84',
-          gold: {
-            DEFAULT: '#D4AF37',
-            soft: '#C9A94B',
-            dim: '#8A7530',
+  // Load Tailwind from the primary CDN, with an automatic fallback to a
+  // second CDN if the first one is blocked or unreachable (some networks,
+  // ad-blockers, and privacy DNS block cdn.tailwindcss.com specifically).
+  // Without this, a blocked request throws "tailwind is not defined" in the
+  // config script below and the entire page loses its styling.
+  (function loadTailwind(sources, i) {
+    if (i >= sources.length) return; // all sources failed — CSS fallback below still applies
+    var s = document.createElement('script');
+    s.src = sources[i];
+    s.onerror = function () { loadTailwind(sources, i + 1); };
+    s.onload = function () { window.__tailwindLoaded = true; applyTailwindConfig(); };
+    document.head.appendChild(s);
+  })([
+    'https://cdn.tailwindcss.com',
+    'https://unpkg.com/@tailwindcss/browser@4'
+  ], 0);
+
+  function applyTailwindConfig() {
+    if (typeof tailwind === 'undefined') return;
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#050505',
+            card: '#0D0D0D',
+            hairline: '#1C1C1A',
+            bone: '#EDEAE2',
+            mute: '#8C8A84',
+            gold: {
+              DEFAULT: '#D4AF37',
+              soft: '#C9A94B',
+              dim: '#8A7530',
+            },
+          },
+          fontFamily: {
+            display: ['Fraunces', 'serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
         },
-        fontFamily: {
-          display: ['Fraunces', 'serif'],
-          body: ['Inter', 'sans-serif'],
-          mono: ['JetBrains Mono', 'monospace'],
-        },
       },
-    },
+    };
   }
 </script>
 
@@ -179,6 +198,45 @@
   }
 
   .num-tick { font-variant-numeric: tabular-nums; }
+
+  /*
+    Fallback layer — only matters if Tailwind fails to load from both CDN
+    sources above. Keeps the page readable, single-column, and usable
+    (nav, sections, buttons, form) instead of an unstyled blank-looking dump.
+    Tailwind's utility classes override all of this once they load, since
+    Tailwind's generated rules come after this block in the DOM.
+  */
+  section, nav, footer, div { box-sizing: border-box; }
+  nav { padding: 16px 24px; }
+  section { padding: 48px 24px; max-width: 720px; margin: 0 auto; }
+  h1, h2, h3 { font-family: 'Fraunces', serif; margin: 0 0 16px; line-height: 1.15; }
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.3rem; }
+  p { margin: 0 0 16px; color: #B9B7B0; }
+  a { color: inherit; }
+  button, a.button-like {
+    display: inline-block;
+    background: #D4AF37;
+    color: #050505;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 999px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  input[type="email"] {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    margin-bottom: 12px;
+    background: #0D0D0D;
+    border: 1px solid #333;
+    border-radius: 999px;
+    color: #EDEAE2;
+    box-sizing: border-box;
+  }
 </style>
 </head>
 <body class="antialiased">
